@@ -10,7 +10,7 @@ class Bod:
     def __str__(self)->str:
         return f"[{self.x};{self.y}]"
 
-    def vrat_vzdialenost(self, other: "Bod" |None = None) -> float:
+    def vrat_vzdialenost(self, other: "Bod |None" = None) -> float:
         if other is None:
             other = Bod(0, 0)
 
@@ -18,42 +18,41 @@ class Bod:
             raise TypeError("Nespravny typ dat!")
         return sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2)
 
-    def spocitaj(self, other: "Bod") -> "Bod":
-        if not type(other) is Bod:
-            raise TypeError("Nevhodny typ argumentu! Vyzadovany je Bod.")
-        return Bod(self.x + other.x, self.y + other.y)
-
-    def odcitaj(self, other: "Bod") -> "Bod":
-        if not type(other) is Bod:
-            raise TypeError("Nevhodny typ argumentu! Vyzadovany je Bod.")
-        return Bod(self.x - other.x, self.y - other.y)
-
-    def vynasob(self, other: int) -> "Bod":
-        if not type(other) is int:
-            raise TypeError("Nevhodny typ argumentu! Vyzadovany je int.")
-        return Bod(self.x * other, self.y * other)
+#     def spocitaj(self, other: "Bod") -> "Bod":
+#         if not type(other) is Bod:
+#             raise TypeError("Nevhodny typ argumentu! Vyzadovany je Bod.")
+#         return Bod(self.x + other.x, self.y + other.y)
+# 
+#     def odcitaj(self, other: "Bod") -> "Bod":
+#         if not type(other) is Bod:
+#             raise TypeError("Nevhodny typ argumentu! Vyzadovany je Bod.")
+#         return Bod(self.x - other.x, self.y - other.y)
+# 
+#     def vynasob(self, other: int) -> "Bod":
+#         if not type(other) is int:
+#             raise TypeError("Nevhodny typ argumentu! Vyzadovany je int.")
+#         return Bod(self.x * other, self.y * other)
 
     def __add__(self, other):
         if type(other) is Bod:
             return Bod(self.x + other.x, self.y + other.y)
         if type(other) is int:
             return Bod(self.x + other, self.y + other)
-        raise NotImplemented
+        return NotImplemented
     
     def __sub__(self, other):
         if type(other) is Bod:
             return Bod(self.x - other.x, self.y - other.y)
         if type(other) is int:
             return Bod(self.x - other, self.y - other)
-        raise NotImplemented
+        return NotImplemented
     
     def __mul__(self,other:int)->"Bod":
         if isinstance(other,int):
             return Bod(self.x * other, self.y * other)
-        
-    def __truediv__(self,other:int)->"Bod":
-        pass
-            
+        else:
+            return NotImplemented
+           
 
     @property
     def x(self):
@@ -62,7 +61,7 @@ class Bod:
     @x.setter
     def x(self, other):
         if not type(other) is int:
-            raise TypeError("Nespravny typ dat!")
+            raise TypeError("Nespravny typ dat pre suradnicu x! Vyzadovany je int.")
         else:
             self._x = other
 
@@ -73,7 +72,7 @@ class Bod:
     @y.setter
     def y(self, other):
         if not type(other) is int:
-            raise TypeError("Nespravny typ dat!")
+            raise TypeError("Nespravny typ dat pre suradnicu y! Vyzadovany je int")
         else:
             self._y = other
 
@@ -87,10 +86,13 @@ def main():
     try:
         A = nacitaj_bod("A")
         B = nacitaj_bod("B")
+        C = Bod(1,6) 
     except ValueError:
         print("Suradnica musi byt cele cislo!")
+    except TypeError as e:
+        print(e)
     else:
-        print(A,B)
+        print(A,B,C)
 
 
 if __name__ == "__main__":
