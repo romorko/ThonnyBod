@@ -9,7 +9,7 @@ class Bod:
         self.y: int = y_daj
 
     def __str__(self) -> str:
-        return f"[{self.x};{self.y}]"
+        return f"[{self.x:2};{self.y:2}]"
 
     def vrat_vzdialenost(self, other: "Bod |None" = None) -> float:
         if other is None:
@@ -92,32 +92,26 @@ def nacitaj_bod(nazov: str):
     return Bod(x_temp, y_temp)
 
 
-def generuj_bod(od: int, do: int) -> "Bod":
+def generuj_bod(od: int=0, do: int=20) -> "Bod":
     x_temp = randint(od, do)
     y_temp = randint(od, do)
     return Bod(x_temp, y_temp)
 
-
+def porovnaj(a:"Bod")->int:
+    return a.vrat_vzdialenost()
+        
 
 def main():
-    try:
-        # A = nacitaj_bod("A")
-        # B = nacitaj_bod("B")
-        # C = Bod(1,6)
-        A = Bod(2, 3)
-        B = Bod(4, 5)
-        D = A + B
-        E = A + 2
-        F = 2 * A
-    except ValueError:
-        print("Suradnica musi byt cele cislo!")
-    except TypeError as e:
-        print(e)
-    else:
-        for i in range(20):
-            print(generuj_bod(1,20))
-        #print(A, B, D, E, F,G)
-
+    body = list()
+    for _ in range(10):
+        body.append(generuj_bod(1,20))
+    
+    body1 = [generuj_bod(1,20) for _ in range(10)]
+    body.sort(key=porovnaj)
+    
+    for i in body:
+        print(f"{i} {i.vrat_vzdialenost():6.2f}")
+               
 
 if __name__ == "__main__":
     main()
