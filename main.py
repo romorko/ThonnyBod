@@ -92,17 +92,13 @@ def main():
     tabula.screensize(800,600)
     tabula.title("Vygenerovane body")
     pero = turtle.Turtle()
-    pero.up()
     pero.pensize(2)
     pero.pencolor("blue")
     
-    pero.setpos(-400,0)
-    pero.down()
+    pero.teleport(-400,0)
     pero.forward(800)
-    pero.up()
-    pero.setpos(0,-300)
+    pero.teleport(0,-300)
     pero.lt(90)
-    pero.down()
     pero.forward(600)
     
     body = list()
@@ -114,9 +110,7 @@ def main():
     
     p=-400//20
     for i in range(-400,400,20):
-        pero.up()
-        pero.setpos(i,-5)
-        pero.down()
+        pero.teleport(i,-5)
         pero.fd(10)
         pero.write(p)
         p+=1
@@ -125,24 +119,22 @@ def main():
     pero.lt(90)
     p=-300//20
     for j in range(-300,300,20):
+        pero.teleport(5,j)
+        pero.fd(10)
         pero.up()
-        pero.setpos(5,j)
+        pero.fd(15)
         pero.down()
-        pero.fd(-10)
         pero.write(p)
         p+=1
     
     pero.lt(-90)
     for i in body:
-        pero.up()
-        pero.setpos(i.x*20,i.y*20)
-        pero.down()
+        pero.teleport(i.x*20,i.y*20)
         pero.dot(10,"red")
         pero.up()
         pero.fd(5)
         pero.down()
         pero.write(f"{i}")
-        pero.up()
     
     for i in body:
         print(f"{i} {i.vrat_vzdialenost():6.2f}")
