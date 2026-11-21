@@ -2,6 +2,7 @@ from math import sqrt
 from random import randint
 import turtle
 
+
 class Bod:
 
     def __init__(self, x_daj: int = 0, y_daj: int = 0):
@@ -78,67 +79,89 @@ def nacitaj_bod(nazov: str):
     return Bod(x_temp, y_temp)
 
 
-def generuj_bod(od: int=0, do: int=20) -> "Bod":
+def generuj_bod(od: int = 0, do: int = 20) -> "Bod":
     x_temp = randint(od, do)
     y_temp = randint(od, do)
     return Bod(x_temp, y_temp)
 
-def porovnaj(a:"Bod")->int:
+
+def porovnaj(a: "Bod") -> int:
     return int(a.vrat_vzdialenost())
-        
+
 
 def main():
     tabula = turtle.Screen()
-    tabula.screensize(800,600)
+    rozl_x = 1024
+    rozl_y = 768
+    polos_x = rozl_x // 2
+    polos_y = rozl_y // 2
+    gen_od = -15
+    gen_do = 15
+    tabula.screensize(rozl_x, rozl_y)
     tabula.title("Vygenerovane body")
     pero = turtle.Turtle()
     pero.pensize(2)
     pero.pencolor("blue")
-    
-    pero.teleport(-400,0)
-    pero.forward(800)
-    pero.teleport(0,-300)
+
+    pero.teleport(-rozl_x // 2, 0)
+    pero.forward(rozl_x)
+    pero.teleport(0, -rozl_y // 2)
     pero.lt(90)
-    pero.forward(600)
-    
+    pero.forward(rozl_y)
+
     body = list()
     for _ in range(10):
-        body.append(generuj_bod(-15,15))
-    
-    #body1 = [generuj_bod(1,20) for _ in range(10)]
+        body.append(generuj_bod(gen_od, gen_do))
+
+    # body1 = [generuj_bod(1,20) for _ in range(10)]
     body.sort(key=porovnaj)
+
+    p_x = polos_x // (gen_do)
+    cislo=0
+    for i in range(-p_x, -polos_x, -p_x):
+        pero.teleport(i, -3)
+        pero.fd(6)
+        pero.write(cislo:=cislo-1)
     
-    p=-400//20
-    for i in range(-400,400,20):
-        pero.teleport(i,-5)
-        pero.fd(10)
-        pero.write(p)
-        p+=1
-        
-        
+    cislo=0
+    for i in range(p_x, polos_x, p_x):
+        pero.teleport(i, -3)
+        pero.fd(6)
+        pero.write(cislo:=cislo+1)
+
     pero.lt(90)
-    p=-300//20
-    for j in range(-300,300,20):
-        pero.teleport(5,j)
-        pero.fd(10)
+    p_y = polos_y // (gen_do)
+    cislo=0
+    for j in range(-p_y, -polos_y, -p_y):
+        pero.teleport(3, j)
+        pero.fd(6)
         pero.up()
         pero.fd(15)
         pero.down()
-        pero.write(p)
-        p+=1
-    
+        pero.write(cislo:=cislo-1)
+
+    cislo=0
+    for j in range(p_y, polos_y, p_y):
+        pero.teleport(3, j)
+        pero.fd(6)
+        pero.up()
+        pero.fd(15)
+        pero.down()
+        pero.write(cislo:=cislo+1)
+
     pero.lt(-90)
     for i in body:
-        pero.teleport(i.x*20,i.y*20)
-        pero.dot(10,"red")
+        pero.teleport(i.x * p_x, i.y * p_y)
+        pero.dot(10, "red")
         pero.up()
         pero.fd(5)
         pero.down()
         pero.write(f"{i}")
-    
+
     for i in body:
         print(f"{i} {i.vrat_vzdialenost():6.2f}")
-    tabula.mainloop()           
+    tabula.mainloop()
+
 
 if __name__ == "__main__":
     main()
