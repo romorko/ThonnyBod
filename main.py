@@ -198,6 +198,34 @@ def main():
         pero.setposition(0,0)
         pero.color("black")
 
+        k = 0
+        if i.y > 0:
+            while k < i.y * p_y:
+                pero.teleport(i.x * p_x, k)
+                k += 10
+                pero.setposition(i.x * p_x, k)
+                k += 10
+        elif i.y < 0:
+            while k > i.y * p_y:
+                pero.teleport(i.x * p_x, k)
+                k -= 10
+                pero.setposition(i.x * p_x, k)
+                k -= 10
+
+        k = 0
+        if i.x > 0:
+            while k < i.x * p_x:
+                pero.teleport(k, i.y * p_y)
+                k += 10
+                pero.setposition(k, i.y * p_y)
+                k += 10
+        elif i.x < 0:
+            while k > i.x * p_x:
+                pero.teleport(k, i.y * p_y)
+                k -= 10
+                pero.setposition(k, i.y * p_y)
+                k -= 10
+
     for i in body:
         print(f"{i} {i.vrat_vzdialenost():6.2f}")
     tabula.mainloop()
