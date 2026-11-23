@@ -117,37 +117,37 @@ def main():
     body.sort(key=porovnaj)
 
     p_x = polos_x // (gen_do)
-    cislo=0
+    cislo = 0
     for i in range(-p_x, -polos_x, -p_x):
         pero.teleport(i, -3)
         pero.fd(6)
-        pero.write(cislo:=cislo-1)
-    
-    cislo=0
+        pero.write(cislo := cislo - 1)
+
+    cislo = 0
     for i in range(p_x, polos_x, p_x):
         pero.teleport(i, -3)
         pero.fd(6)
-        pero.write(cislo:=cislo+1)
+        pero.write(cislo := cislo + 1)
 
     pero.lt(90)
     p_y = polos_y // (gen_do)
-    cislo=0
+    cislo = 0
     for j in range(-p_y, -polos_y, -p_y):
         pero.teleport(3, j)
         pero.fd(6)
         pero.up()
         pero.fd(15)
         pero.down()
-        pero.write(cislo:=cislo-1)
+        pero.write(cislo := cislo - 1)
 
-    cislo=0
+    cislo = 0
     for j in range(p_y, polos_y, p_y):
         pero.teleport(3, j)
         pero.fd(6)
         pero.up()
         pero.fd(15)
         pero.down()
-        pero.write(cislo:=cislo+1)
+        pero.write(cislo := cislo + 1)
 
     pero.lt(-90)
     for i in body:
@@ -157,6 +157,34 @@ def main():
         pero.fd(5)
         pero.down()
         pero.write(f"{i}")
+
+        k = 0
+        if i.y > 0:
+            while k < i.y * p_y:
+                pero.teleport(i.x * p_x, k)
+                k += 10
+                pero.setposition(i.x * p_x, k)
+                k += 10
+        elif i.y < 0:
+            while k > i.y * p_y:
+                pero.teleport(i.x * p_x, k)
+                k -= 10
+                pero.setposition(i.x * p_x, k)
+                k -= 10
+
+        k = 0
+        if i.x > 0:
+            while k < i.x * p_x:
+                pero.teleport(k, i.y * p_y)
+                k += 10
+                pero.setposition(k, i.y * p_y)
+                k += 10
+        elif i.x < 0:
+            while k > i.x * p_x:
+                pero.teleport(k, i.y * p_y)
+                k -= 10
+                pero.setposition(k, i.y * p_y)
+                k -= 10
 
     for i in body:
         print(f"{i} {i.vrat_vzdialenost():6.2f}")
