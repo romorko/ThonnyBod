@@ -89,6 +89,23 @@ def porovnaj(a: "Bod") -> int:
     return a.vrat_vzdialenost()
 
 
+def os_x(pero_os,p_x_x: int, polos_x_x: int, jednotka: int):
+    cislo_os = 0
+    for i in range(-p_x_x, -polos_x_x, -p_x_x):
+        pero_os.teleport(i, -3)
+        pero_os.fd(6)
+        pero_os.write(cislo_os := cislo_os + 1 * jednotka)
+
+def os_y(pero_os,p_y_y:int,polos_y_y:int,jednotka:int):
+    cislo_os = 0
+    for j in range(p_y_y, polos_y_y, p_y_y):
+        pero_os.teleport(3, j)
+        pero_os.fd(6)
+        pero_os.up()
+        pero_os.fd(15)
+        pero_os.down()
+        pero_os.write(cislo_os := cislo_os + 1*jednotka)  
+
 def main():
     tabula = turtle.Screen()
     rozl_x = 1024
@@ -117,85 +134,41 @@ def main():
     body.sort(key=porovnaj)
 
     p_x = polos_x // (gen_do)
+    # zaporna x os
+    os_x(pero,p_x, polos_x, 1)
+    # kladna os x
+    os_x(pero,-p_x, -polos_x, -1)
     cislo = 0
-    for i in range(-p_x, -polos_x, -p_x):
-        pero.teleport(i, -3)
-        pero.fd(6)
-        pero.write(cislo := cislo - 1)
-
-    cislo = 0
-    for i in range(p_x, polos_x, p_x):
-        pero.teleport(i, -3)
-        pero.fd(6)
-        pero.write(cislo := cislo + 1)
 
     pero.lt(90)
-    p_y = polos_y // (gen_do)
-    cislo = 0
-    for j in range(-p_y, -polos_y, -p_y):
-        pero.teleport(3, j)
-        pero.fd(6)
-        pero.up()
-        pero.fd(15)
-        pero.down()
-        pero.write(cislo := cislo - 1)
 
-    cislo = 0
-    for j in range(p_y, polos_y, p_y):
-        pero.teleport(3, j)
-        pero.fd(6)
-        pero.up()
-        pero.fd(15)
-        pero.down()
-        pero.write(cislo := cislo + 1)
+    p_y = polos_y // (gen_do)
+    # zaporna os y    
+    os_y(pero,-p_y,-polos_y,-1)
+    # kladna os y
+    os_y(pero,p_y,polos_y,1)
 
     pero.lt(-90)
-    for index,i in enumerate(body):
-        pero.teleport(i.x * p_x, i.y * p_y)
+    pero.color("black")
+    # vytvori body, napise k nim suradnice s poradim a spoji ciarou s pociatkom + napise vzdialenost
+    for index, i in enumerate(body):
+        x_sur:int = i.x * p_x
+        y_sur:int = i.y * p_y
+        pero.teleport(x_sur, y_sur)
         pero.dot(10, "red")
-        pero.up()
-        pero.fd(5)
-        pero.down()
-        pero.write(f"   {index+1}->{i}",align="left", font=("Courier", 12, "bold"))
-        pero.up()
-        pero.fd(10)
-        pero.down()
+        pero.teleport(x_sur, y_sur+5)
+        pero.write(f" {index+1}->{i}", align="left", font=("Courier", 12, "bold"))
+        pero.teleport(x_sur, y_sur+15)
         pero.color("red")
-        pero.teleport(i.x * p_x/2, i.y * p_y/2)
-        pero.write(f"{i.vrat_vzdialenost():.2f}",align="left", font=("Courier", 12, "bold"))
+        pero.teleport(x_sur// 2, y_sur // 2)
+        pero.write(
+            f"{i.vrat_vzdialenost():.2f}", align="left", font=("Courier", 12, "bold")
+        )
         pero.color("black")
 
-        k = 0
-        if i.y > 0:
-            while k < i.y * p_y:
-                pero.teleport(i.x * p_x, k)
-                k += 10
-                pero.setposition(i.x * p_x, k)
-                k += 10
-        elif i.y < 0:
-            while k > i.y * p_y:
-                pero.teleport(i.x * p_x, k)
-                k -= 10
-                pero.setposition(i.x * p_x, k)
-                k -= 10
-
-        k = 0
-        if i.x > 0:
-            while k < i.x * p_x:
-                pero.teleport(k, i.y * p_y)
-                k += 10
-                pero.setposition(k, i.y * p_y)
-                k += 10
-        elif i.x < 0:
-            while k > i.x * p_x:
-                pero.teleport(k, i.y * p_y)
-                k -= 10
-                pero.setposition(k, i.y * p_y)
-                k -= 10
-                
-        pero.teleport(i.x * p_x, i.y * p_y)
+        pero.teleport(x_sur, y_sur)
         pero.color("red")
-        pero.setposition(0,0)
+        pero.setposition(0, 0)
         pero.color("black")
 
         k = 0
